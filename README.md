@@ -18,34 +18,39 @@ This is a docker compose file that contains an nginx image and alpine image and 
 This Docker Compose setup deploys an Nginx service and multiple replicas of an Alpine service.
 
 ## Nginx Service
-
-- Image: `nginx:latest`
-- Container Name: `nginx`
-- Restart Policy: `unless-stopped`
-- Ports:
-  - 8080:80
-- Volumes:
-  - `alpine_data:/usr/share/nginx/html`
-
+```
+ services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    volumes:
+      - alpine_data:/usr/share/nginx/html
+```
 The Nginx service uses the latest Nginx image, maps port 8080 on the host to port 80 in the container, and mounts the `alpine_data` volume to the `/usr/share/nginx/html` directory.
 
 ## Alpine Service
 
-- Image: `alpine:latest`
-- Restart Policy: `unless-stopped`
-- Volumes:
-  - `alpine_data:/var/www/html`
-- Deploy Configuration:
-  - Replicas: 5
-  - Update Config:
-    - Parallelism: 1
-    - Delay: 10 seconds
-  - Restart Policy: On failure
-- Environment:
-  - `MESSAGE=Hello from Alpine`
-- Command: `sh -c 'mkdir -p /var/www/html/ && echo $$MESSAGE-$(HOSTNAME: - 1) > /var/www/html/index.html && tail -f /dev/null'`
-
-- Hostname: `alpine-$${HOSTNAME: -1}`
+```
+  alpine:
+    image: alpine:latest
+    restart: unless-stopped
+    volumes:
+      - alpine_data:/var/www/html
+    deploy:
+      replicas: 5
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure 
+      environment:
+        - MESSAGE=Hello from Alpine
+      command: sh -c 'mkdir -p /var/www/html/ && echo $$MESSAGE-$(HOSTNAME: - 1) > /var/www/html/index.html && tail -f /dev/null'
+      hostname: alpine-$${HOSTNAME: -1} 
+ ```
 
 The Alpine service uses the latest Alpine image, sets the restart policy to `unless-stopped`, mounts the `alpine_data` volume to the `/var/www/html` directory, and deploys 5 replicas. Each replica will have a unique hostname and generate a custom message in its `index.html` file. The command executed in each replica creates the necessary directory, echoes the message with the hostname, and keeps the container running by tailing the `/dev/null` file.
 
