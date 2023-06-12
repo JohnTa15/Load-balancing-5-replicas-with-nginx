@@ -20,14 +20,16 @@ This Docker Compose setup deploys an Nginx service and multiple replicas of an A
 ## Nginx Service
 ```
  services:
-  nginx:
+ nginx:
     image: nginx:latest
     container_name: nginx
     restart: unless-stopped
     ports:
       - 8080:80
     volumes:
+      - /home/rootj/Desktop/cloudproject/index1.html:/usr/share/nginx/html
       - alpine_data:/usr/share/nginx/html
+    command: sh -c 'printf "Welcome Master!\n" > /usr/share/nginx/html/index.html && nginx -g "daemon off;"'
 ```
 The Nginx service uses the latest Nginx image, maps port 8080 on the host to port 80 in the container, and mounts the `alpine_data` volume to the `/usr/share/nginx/html` directory.
 
@@ -35,7 +37,7 @@ The Nginx service uses the latest Nginx image, maps port 8080 on the host to por
 
 ```
   alpine:
-    image: alpine:latest
+  image: alpine:latest
     restart: unless-stopped
     volumes:
       - alpine_data:/var/www/html
@@ -45,11 +47,10 @@ The Nginx service uses the latest Nginx image, maps port 8080 on the host to por
         parallelism: 1
         delay: 10s
       restart_policy:
-        condition: on-failure 
-      environment:
-        - MESSAGE=Hello from Alpine
-      command: sh -c 'mkdir -p /var/www/html/ && echo $$MESSAGE-$(HOSTNAME: - 1) > /var/www/html/index.html && tail -f /dev/null'
-      hostname: alpine-$${HOSTNAME: -1} 
+        condition: on-failure
+    environment:
+      - MESSAGE=Hello from Alpine
+    command: sh -c 'mkdir -p /var/www/html && printf "$$MESSAGE $$HOSTNAME\n"  >> /var/www/html/index.html && tail -f /dev/null'
  ```
 
 The Alpine service uses the latest Alpine image, sets the restart policy to `unless-stopped`, mounts the `alpine_data` volume to the `/var/www/html` directory, and deploys 5 replicas. Each replica will have a unique hostname and generate a custom message in its `index.html` file. The command executed in each replica creates the necessary directory, echoes the message with the hostname, and keeps the container running by tailing the `/dev/null` file.
