@@ -10,19 +10,19 @@ services:
       - /home/rootj/Desktop/cloudproject/index1.html:/usr/share/nginx/html
       - alpine_data:/usr/share/nginx/html
     command: sh -c 'printf "Welcome Master!\n" > /usr/share/nginx/html/index.html && nginx -g "daemon off;"'
-    
+
   alpine:
     image: alpine:latest
     restart: unless-stopped
-    volumes: 
-      - alpine_data:/var/www/html 
+    volumes:
+      - alpine_data:/var/www/html
     deploy:
       replicas: 5
       update_config:
         parallelism: 1
         delay: 10s
       restart_policy:
-        condition: on-failure 
+        condition: on-failure
     environment:
       - MESSAGE=Hello from Alpine
     command: sh -c 'mkdir -p /var/www/html && printf "$$MESSAGE $$HOSTNAME\n"  >> /var/www/html/index.html && tail -f /dev/null'
