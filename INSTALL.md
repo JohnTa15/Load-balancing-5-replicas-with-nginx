@@ -16,6 +16,7 @@ Check this [link](https://docs.docker.com/engine/install/) for more info
 1. Download the file using git
 
 `git clone https://github.com/JohnTa15/Load-Balancing-5-replicas-with-nginx/`
+
 2. Run `chmod +x install.sh` to install the containers
 3. Run install.sh
 
