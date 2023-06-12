@@ -24,3 +24,6 @@ Check this [link](https://docs.docker.com/engine/install/) for more info
 3. Open a browser
 4. Finally, type `localhost:8080`
 5. Enjoy! 😄
+
+### If something fails
+**Make sure you don't use port 8080. In case you use it change the port to make the program work!**
