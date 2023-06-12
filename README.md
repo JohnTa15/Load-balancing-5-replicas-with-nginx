@@ -32,7 +32,8 @@ nginx:
     networks:
       - vlab
 ```
-Local used port is `8080` and container's port is `80`, the `alpine_data` pointing `/usr/share/nginx/html` directory, after the `command` arguement we accessing to Nginx's terminal and we add to index.html printf command and at the end `nginx -g "daemon off;"` this option ensures that the Nginx process runs in the foreground, allowing Docker to manage the container and enabling you to see the Nginx logs and keep the container running interactively.
+Local used port is `8080` and container's port is `80`, the `alpine_data` pointing `/usr/share/nginx/html` directory, after the `command` argument we accessing to Nginx's terminal and we add to index.html `printf command` and at the end `nginx -g "daemon off;"` this option ensures that the Nginx process runs in the foreground, allowing Docker to manage the container and enabling you to see the Nginx logs and keep the container running interactively. Finally the Nginx service joins to `vlab` network
+
 The alpine service is :
 ```
   alpine:
@@ -58,6 +59,7 @@ The alpine service is :
     networks:
       - vlab
 ```
+With `memory` forces the service use only 200mb of ram, `cpus` argument forces to use 0.3 power of the CPU, `replicas` creates 5 alpine services,`MESSAGE` variable gives the message *Hello from alpine*, `command` argument creates /var/www/html directory and prints the `MESSAGE` and `HOSTNAME` variable to the /var/www/html/index.html. Last but not least the `tail -f /dev/null` command is often used as a workaround or placeholder command in Docker containers to keep the container running indefinitely.
 
 To create volume alpine_data and vlab network:
 ```
