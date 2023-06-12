@@ -34,6 +34,8 @@ services:
     command: sh -c 'mkdir -p /var/www/html && printf "<br>$$MESSAGE $$HOSTNAME<br>"  >> /var/www/html/index.html && tail -f /dev/null'
     networks:
       - vlab
+    depends_on:
+      - nginx
 
 volumes:
   alpine_data:
