@@ -10,6 +10,8 @@ services:
       - /home/rootj/Desktop/cloudproject/index1.html:/usr/share/nginx/html
       - alpine_data:/usr/share/nginx/html
     command: sh -c 'printf "Welcome Master!\n" > /usr/share/nginx/html/index.html && nginx -g "daemon off;"'
+    network:
+      - vlab
 
   alpine:
     image: alpine:latest
@@ -26,7 +28,11 @@ services:
     environment:
       - MESSAGE=Hello from Alpine
     command: sh -c 'mkdir -p /var/www/html && printf "$$MESSAGE $$HOSTNAME\n"  >> /var/www/html/index.html && tail -f /dev/null'
+    network:
+      - vlab
 
 volumes:
   alpine_data:
-
+  
+networks:
+  vlab:
