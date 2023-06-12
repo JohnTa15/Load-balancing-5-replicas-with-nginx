@@ -19,6 +19,11 @@ services:
     volumes:
       - alpine_data:/var/www/html
     deploy:
+     recources:
+       limits:
+        memory: 200M
+     oom_kill_disable: true
+     oom_score_adj: -1000
       replicas: 5
       update_config:
         parallelism: 1
