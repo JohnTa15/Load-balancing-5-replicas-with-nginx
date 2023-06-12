@@ -8,7 +8,7 @@ To set up the nginx and alpine docker compose project, follow these steps:
 - Make sure you have the following software installed on your machine:
 ```
 Docker
-Docker Compose
+Docker Engine
 ```
 Check this [link](https://docs.docker.com/engine/install/) for more info
 
