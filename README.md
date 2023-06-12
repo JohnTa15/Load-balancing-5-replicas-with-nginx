@@ -27,7 +27,6 @@ This Docker Compose setup deploys an Nginx service and multiple replicas of an A
     ports:
       - 8080:80
     volumes:
-      - /home/rootj/Desktop/cloudproject/index1.html:/usr/share/nginx/html
       - alpine_data:/usr/share/nginx/html
     command: sh -c 'printf "Welcome Master!\n" > /usr/share/nginx/html/index.html && nginx -g "daemon off;"'
 ```
