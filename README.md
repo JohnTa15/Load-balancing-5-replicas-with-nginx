@@ -70,6 +70,6 @@ networks:
   vlab:
 ```
 ### Instalation guide
-See `INSTALL.md` file or click [here]() ;)
+See `INSTALL.md` file or click [here](https://github.com/JohnTa15/Load-balancing-5-replicas-with-nginx/blob/main/INSTALL.md) ;)
 
 
