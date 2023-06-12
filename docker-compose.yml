@@ -7,10 +7,9 @@ services:
     ports:
       - 8080:80
     volumes:
-      - /home/rootj/Desktop/cloudproject/index1.html:/usr/share/nginx/html
       - alpine_data:/usr/share/nginx/html
-    command: sh -c 'printf "Welcome Master!\n" > /usr/share/nginx/html/index.html && nginx -g "daemon off;"'
-    network:
+    command: sh -c 'printf "Welcome!<br><p>This is an nginx project that connects 5 alpine replicas index.html<br>Say hi guys!</p>" > /usr/share/nginx/html/index.html && nginx -g "daemon off;"'
+    networks:
       - vlab
 
   alpine:
@@ -19,25 +18,25 @@ services:
     volumes:
       - alpine_data:/var/www/html
     deploy:
-     recources:
-       limits:
-        memory: 200M
-     oom_kill_disable: true
-     oom_score_adj: -1000
+      resources:
+        limits:
+          memory: 200M
+          cpus: '0.3'
       replicas: 5
       update_config:
         parallelism: 1
         delay: 10s
+        order: stop-first
       restart_policy:
         condition: on-failure
     environment:
       - MESSAGE=Hello from Alpine
-    command: sh -c 'mkdir -p /var/www/html && printf "$$MESSAGE $$HOSTNAME\n"  >> /var/www/html/index.html && tail -f /dev/null'
-    network:
+    command: sh -c 'mkdir -p /var/www/html && printf "<br>$$MESSAGE $$HOSTNAME<br>"  >> /var/www/html/index.html && tail -f /dev/null'
+    networks:
       - vlab
 
 volumes:
   alpine_data:
-  
+
 networks:
   vlab:
