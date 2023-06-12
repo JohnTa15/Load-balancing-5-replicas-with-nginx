@@ -25,7 +25,7 @@ Check this [link](https://docs.docker.com/engine/install/) for more info
 5. Finally, type `localhost:8080`
 6. Enjoy! 😄
 
-##Uninstalling.. 
+## Uninstalling.. 
 - To uninstall those containers you have to `chmod +x uninstall.sh`
 - Then execute `./uninstall.sh`
 ### If something fails
